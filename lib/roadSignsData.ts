@@ -1,0 +1,696 @@
+export interface RoadSign {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  category: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export const categories: Category[] = [
+  {
+    id: 'ostrzegawcze',
+    name: 'Znaki ostrzegawcze',
+    description:
+      'Znaki ostrzegawcze (typ A) - trójkątne w czerwonym obramowaniu',
+  },
+  {
+    id: 'zakazu',
+    name: 'Znaki zakazu',
+    description: 'Znaki zakazu (typ B) - okrągłe w czerwonej ramce',
+  },
+  {
+    id: 'nakazu',
+    name: 'Znaki nakazu',
+    description: 'Znaki nakazu (typ C) - okrągłe, niebieskie z białym symbolem',
+  },
+  {
+    id: 'informacyjne',
+    name: 'Znaki informacyjne',
+    description: 'Znaki informacyjne (typ D) - prostokątne, niebieskie',
+  },
+];
+
+export const roadSigns: RoadSign[] = [
+  // Znaki ostrzegawcze (typ A)
+  {
+    id: 'A-1',
+    name: 'Niebezpieczny zakręt w prawo',
+    description: 'Ostrzega o niebezpiecznym zakręcie w prawo',
+    imageUrl: '/signs/PL_road_sign_A-1.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-2',
+    name: 'Niebezpieczny zakręt w lewo',
+    description: 'Ostrzega o niebezpiecznym zakręcie w lewo',
+    imageUrl: '/signs/PL_road_sign_A-2.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-3',
+    name: 'Niebezpieczne zakręty - pierwszy w prawo',
+    description: 'Ostrzega o niebezpiecznych zakrętach, pierwszy w prawo',
+    imageUrl: '/signs/PL_road_sign_A-3.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-4',
+    name: 'Niebezpieczne zakręty - pierwszy w lewo',
+    description: 'Ostrzega o niebezpiecznych zakrętach, pierwszy w lewo',
+    imageUrl: '/signs/PL_road_sign_A-4.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-5',
+    name: 'Skrzyżowanie dróg - skrzyżowanie równorzędne',
+    description: 'Ostrzega o skrzyżowaniu dróg',
+    imageUrl: '/signs/PL_road_sign_A-5.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-6a',
+    name: 'Skrzyżowanie z drogą podporządkowaną',
+    description: 'Skrzyżowanie z drogą podporządkowaną po obu stronach',
+    imageUrl: '/signs/PL_road_sign_A-6a.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-6b',
+    name: 'Skrzyżowanie z drogą podporządkowaną występującą po prawej stronie',
+    description:
+      'Skrzyżowanie z drogą podporządkowaną występującą po prawej stronie',
+    imageUrl: '/signs/PL_road_sign_A-6b.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-6c',
+    name: 'Skrzyżowanie z drogą podporządkowaną występującą po lewej stronie',
+    description:
+      'Skrzyżowanie z drogą podporządkowaną występującą po lewej stronie',
+    imageUrl: '/signs/PL_road_sign_A-6c.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-6d',
+    name: 'Wlot drogi jednokierunkowej z prawej strony',
+    description: 'Wlot drogi jednokierunkowej z prawej strony',
+    imageUrl: '/signs/PL_road_sign_A-6d.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-6e',
+    name: 'Wlot drogi jednokierunkowej z lewej strony',
+    description: 'Wlot drogi jednokierunkowej z lewej strony',
+    imageUrl: '/signs/PL_road_sign_A-6e.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-7',
+    name: 'Ustąp pierwszeństwa',
+    description:
+      'Ostrzega o zbliżaniu się do miejsca, gdzie należy ustąpić pierwszeństwa',
+    imageUrl: '/signs/PL_road_sign_A-7.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-8',
+    name: 'Skrzyżowanie o ruchu okrężnym',
+    description: 'Ostrzega o skrzyżowaniu o ruchu okrężnym (rondzie)',
+    imageUrl: '/signs/PL_road_sign_A-8.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-9',
+    name: 'Przejazd kolejowy z zaporami',
+    description: 'Ostrzega o przejeździe kolejowym z zaporami',
+    imageUrl: '/signs/PL_road_sign_A-9.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-10',
+    name: 'Przejazd kolejowy bez zapór',
+    description: 'Ostrzega o przejeździe kolejowym bez zapór',
+    imageUrl: '/signs/PL_road_sign_A-10.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-11',
+    name: 'Nierówna droga',
+    description: 'Ostrzega o nierównej nawierzchni drogi',
+    imageUrl: '/signs/PL_road_sign_A-11.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-11a',
+    name: 'Próg zwalniający',
+    description: 'Ostrzega o progu zwalniającym',
+    imageUrl: '/signs/PL_road_sign_A-11a.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-12a',
+    name: 'Zwężenie jezdni – dwustronne',
+    description: 'Ostrzega o zwężeniu jezdni z obu stron',
+    imageUrl: '/signs/PL_road_sign_A-12a.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-12b',
+    name: 'Zwężenie jezdni – prawostronne',
+    description: 'Ostrzega o zwężeniu jezdni z prawej strony',
+    imageUrl: '/signs/PL_road_sign_A-12b.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-12c',
+    name: 'Zwężenie jezdni – lewostronne',
+    description: 'Ostrzega o zwężeniu jezdni z lewej strony',
+    imageUrl: '/signs/PL_road_sign_A-12c.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-13',
+    name: 'Ruchomy most',
+    description: 'Ruchomy most',
+    imageUrl: '/signs/PL_road_sign_A-13.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-14',
+    name: 'Roboty drogowe',
+    description: 'Ostrzega o prowadzonych robotach drogowych',
+    imageUrl: '/signs/PL_road_sign_A-14.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-15',
+    name: 'Śliska jezdnia',
+    description: 'Ostrzega o śliskiej nawierzchni jezdni',
+    imageUrl: '/signs/PL_road_sign_A-15.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-16',
+    name: 'Przejście dla pieszych',
+    description: 'Ostrzega o przejściu dla pieszych',
+    imageUrl: '/signs/PL_road_sign_A-16.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-17',
+    name: 'Dzieci',
+    description: 'Ostrzega o miejscu uczęszczanym przez dzieci',
+    imageUrl: '/signs/PL_road_sign_A-17.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-18a',
+    name: 'Zwierzęta gospodarskie',
+    description: 'Ostrzega o możliwości pojawienia się zwierząt gospodarskich',
+    imageUrl: '/signs/PL_road_sign_A-18a.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-18b',
+    name: 'Zwierzęta dzikie',
+    description: 'Ostrzega o możliwości pojawienia się zwierząt dzikich',
+    imageUrl: '/signs/PL_road_sign_A-18b.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-19',
+    name: 'Boczny wiatr',
+    description: 'Boczny wiatr',
+    imageUrl: '/signs/PL_road_sign_A-19.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-20',
+    name: 'Odcinek jezdni o ruchu dwukierunkowym',
+    description: 'Odcinek jezdni o ruchu dwukierunkowym',
+    imageUrl: '/signs/PL_road_sign_A-20.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-21',
+    name: 'Tramwaj',
+    description: 'Tramwaj',
+    imageUrl: '/signs/PL_road_sign_A-21.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-22',
+    name: 'Niebezpieczny zjazd',
+    description: 'Niebezpieczny zjazd',
+    imageUrl: '/signs/PL_road_sign_A-22.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-23',
+    name: 'Stromy podjazd',
+    description: 'Stromy podjazd',
+    imageUrl: '/signs/PL_road_sign_A-23.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-24',
+    name: 'Rowerzysci',
+    description: 'Rowerzysci',
+    imageUrl: '/signs/PL_road_sign_A-24.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-25',
+    name: 'Spadające odłamki skalne',
+    description: 'Spadające odłamki skalne',
+    imageUrl: '/signs/PL_road_sign_A-25.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-26',
+    name: 'Lotnisko',
+    description: 'Lotnisko',
+    imageUrl: '/signs/PL_road_sign_A-26.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-27',
+    name: 'Nabrzeże lub brzeg rzeki',
+    description: 'Nabrzeże lub brzeg rzeki',
+    imageUrl: '/signs/PL_road_sign_A-27.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-28',
+    name: 'Sypki zwir',
+    description: 'Sypki zwir',
+    imageUrl: '/signs/PL_road_sign_A-28.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-29',
+    name: 'Sygnaly swietlne',
+    description: 'Sygnaly swietlne',
+    imageUrl: '/signs/PL_road_sign_A-29.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-30',
+    name: 'Inne niebezpieczeństwo',
+    description: 'Ostrzega o innych niebezpieczeństwach',
+    imageUrl: '/signs/PL_road_sign_A-30.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-31',
+    name: 'Niebezpieczne pobocze',
+    description: 'Niebezpieczne pobocze',
+    imageUrl: '/signs/PL_road_sign_A-31.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-32',
+    name: 'Oszronienie jezdni',
+    description: 'Oszronienie jezdni',
+    imageUrl: '/signs/PL_road_sign_A-32.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-33',
+    name: 'Zator drogowy',
+    description: 'Zator drogowy',
+    imageUrl: '/signs/PL_road_sign_A-33.svg.png',
+    category: 'ostrzegawcze',
+  },
+  {
+    id: 'A-34',
+    name: 'Wypadek drogowy',
+    description: 'Wypadek drogowy',
+    imageUrl: '/signs/PL_road_sign_A-34.svg.png',
+    category: 'ostrzegawcze',
+  },
+
+  // Znaki zakazu (typ B)
+  {
+    id: 'B-1',
+    name: 'Zakaz ruchu w obu kierunkach',
+    description: 'Zakazuje ruchu na drodze wszelkich pojazdów',
+    imageUrl: '/signs/PL_road_sign_B-1.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-2',
+    name: 'Zakaz wjazdu',
+    description: 'Zakazuje wjazdu pojazdów na drogę od strony znaku',
+    imageUrl: '/signs/PL_road_sign_B-2.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-3',
+    name: 'Zakaz wjazdu pojazdów silnikowych',
+    description:
+      'Zakazuje wjazdu pojazdów silnikowych z wyjątkiem motocykli jednośladowych',
+    imageUrl: '/signs/PL_road_sign_B-3.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-3a',
+    name: 'Zakaz wjazdu autobusów',
+    description: 'Zakazuje wjazdu autobusów',
+    imageUrl: '/signs/PL_road_sign_B-3a.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-4',
+    name: 'Zakaz wjazdu motocykli',
+    description: 'Zakazuje wjazdu motocykli',
+    imageUrl: '/signs/PL_road_sign_B-4.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-5',
+    name: 'Zakaz wjazdu samochodów ciężarowych',
+    description:
+      'Zakazuje wjazdu samochodów ciężarowych o dopuszczalnej masie całkowitej przekraczającej 3,5 t',
+    imageUrl: '/signs/PL_road_sign_B-5.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-9',
+    name: 'Zakaz wjazdu rowerów',
+    description: 'Zakazuje ruchu rowerów i wózków rowerowych',
+    imageUrl: '/signs/PL_road_sign_B-9.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-20',
+    name: 'Stop',
+    description: 'Zatrzymanie przed znakiem obowiązkowe',
+    imageUrl: '/signs/PL_road_sign_B-20.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-21',
+    name: 'Zakaz skręcania w lewo',
+    description: 'Zakazuje skręcania w lewo oraz zawracania',
+    imageUrl: '/signs/PL_road_sign_B-21.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-22',
+    name: 'Zakaz skręcania w prawo',
+    description: 'Zakazuje skręcania w prawo',
+    imageUrl: '/signs/PL_road_sign_B-22.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-23',
+    name: 'Zakaz zawracania',
+    description: 'Zakazuje zawracania',
+    imageUrl: '/signs/PL_road_sign_B-23.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-25',
+    name: 'Zakaz wyprzedzania',
+    description: 'Zakazuje wyprzedzania pojazdów silnikowych',
+    imageUrl: '/signs/PL_road_sign_B-25.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-33',
+    name: 'Ograniczenie prędkości (50 km/h)',
+    description: 'Zakazuje przekraczania prędkości 50 kilometrów na godzinę',
+    imageUrl: '/signs/PL_road_sign_B-34-50.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-35',
+    name: 'Zakaz postoju',
+    description: 'Zakazuje postoju',
+    imageUrl: '/signs/PL_road_sign_B-35.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-36',
+    name: 'Zakaz zatrzymywania się',
+    description: 'Zakazuje zatrzymywania się',
+    imageUrl: '/signs/PL_road_sign_B-36.svg.png',
+    category: 'zakazu',
+  },
+
+  // Znaki nakazu (typ C)
+  {
+    id: 'C-1',
+    name: 'Nakaz jazdy w prawo przed znakiem',
+    description: 'Nakazuje jazdę w prawo przed znakiem',
+    imageUrl: '/signs/PL_road_sign_C-1.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-2',
+    name: 'Nakaz jazdy w prawo za znakiem',
+    description: 'Nakazuje jazdę w prawo za znakiem',
+    imageUrl: '/signs/PL_road_sign_C-2.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-3',
+    name: 'Nakaz jazdy w lewo przed znakiem',
+    description: 'Nakazuje jazdę w lewo przed znakiem',
+    imageUrl: '/signs/PL_road_sign_C-3.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-4',
+    name: 'Nakaz jazdy w lewo za znakiem',
+    description: 'Nakazuje jazdę w lewo za znakiem',
+    imageUrl: '/signs/PL_road_sign_C-4.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-5',
+    name: 'Nakaz jazdy prosto',
+    description: 'Nakazuje jazdę prosto',
+    imageUrl: '/signs/PL_road_sign_C-5.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-6',
+    name: 'Nakaz jazdy prosto lub w prawo',
+    description: 'Nakazuje jazdę prosto lub w prawo',
+    imageUrl: '/signs/PL_road_sign_C-6.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-7',
+    name: 'Nakaz jazdy prosto lub w lewo',
+    description: 'Nakazuje jazdę prosto lub w lewo',
+    imageUrl: '/signs/PL_road_sign_C-7.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-8',
+    name: 'Nakaz jazdy w prawo lub w lewo',
+    description: 'Nakazuje jazdę w prawo lub w lewo',
+    imageUrl: '/signs/PL_road_sign_C-8.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-9',
+    name: 'Nakaz jazdy z prawej strony znaku',
+    description: 'Nakazuje jazdę z prawej strony znaku',
+    imageUrl: '/signs/PL_road_sign_C-9.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-10',
+    name: 'Nakaz jazdy z lewej strony znaku',
+    description: 'Nakazuje jazdę z lewej strony znaku',
+    imageUrl: '/signs/PL_road_sign_C-10.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-12',
+    name: 'Ruch okrężny',
+    description:
+      'Nakazuje jazdę dookoła wyspy zgodnie z kierunkiem wskazanym na znaku',
+    imageUrl: '/signs/PL_road_sign_C-12.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-13',
+    name: 'Droga dla rowerów',
+    description: 'Nakazuje kierującemu rowerem jazdę drogą dla rowerów',
+    imageUrl: '/signs/PL_road_sign_C-13.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-13a',
+    name: 'Koniec drogi dla rowerów',
+    description: 'Oznacza koniec drogi dla rowerów',
+    imageUrl: '/signs/PL_road_sign_C-13a.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-14',
+    name: 'Prędkość minimalna (30 km/h)',
+    description:
+      'Nakazuje jazdę z prędkością nie mniejszą niż 30 kilometrów na godzinę',
+    imageUrl: '/signs/PL_road_sign_C-14-30.svg.png',
+    category: 'nakazu',
+  },
+  {
+    id: 'C-16',
+    name: 'Droga dla pieszych',
+    description:
+      'Nakazuje pieszym korzystanie z drogi przeznaczonej tylko dla pieszych',
+    imageUrl: '/signs/PL_road_sign_C-16.svg.png',
+    category: 'nakazu',
+  },
+
+  // Znaki informacyjne (typ D)
+  {
+    id: 'D-1',
+    name: 'Droga z pierwszeństwem',
+    description: 'Oznacza początek lub kontynuację drogi z pierwszeństwem',
+    imageUrl: '/signs/PL_road_sign_D-1.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-2',
+    name: 'Koniec drogi z pierwszeństwem',
+    description: 'Oznacza koniec drogi z pierwszeństwem',
+    imageUrl: '/signs/PL_road_sign_D-2.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-3',
+    name: 'Droga jednokierunkowa',
+    description: 'Oznacza początek lub kontynuację drogi jednokierunkowej',
+    imageUrl: '/signs/PL_road_sign_D-3.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-4a',
+    name: 'Droga bez przejazdu',
+    description: 'Oznacza drogę bez przejazdu',
+    imageUrl: '/signs/PL_road_sign_D-4a.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-5',
+    name: 'Pierwszeństwo na zwężonym odcinku drogi',
+    description: 'Oznacza pierwszeństwo na zwężonym odcinku drogi',
+    imageUrl: '/signs/PL_road_sign_D-5.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-6',
+    name: 'Przejście dla pieszych',
+    description: 'Oznacza miejsce przeznaczone do przechodzenia pieszych',
+    imageUrl: '/signs/PL_road_sign_D-6.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-6a',
+    name: 'Przejazd dla rowerzystów',
+    description: 'Oznacza miejsce przeznaczone do przejeżdżania rowerzystów',
+    imageUrl: '/signs/PL_road_sign_D-6a.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-6b',
+    name: 'Przejście dla pieszych i przejazd dla rowerzystów',
+    description: 'Oznacza przejście dla pieszych i przejazd dla rowerzystów',
+    imageUrl: '/signs/PL_road_sign_D-6b.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-7',
+    name: 'Droga ekspresowa',
+    description: 'Oznacza początek lub kontynuację drogi ekspresowej',
+    imageUrl: '/signs/PL_road_sign_D-7.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-8',
+    name: 'Koniec drogi ekspresowej',
+    description: 'Oznacza koniec drogi ekspresowej',
+    imageUrl: '/signs/PL_road_sign_D-8.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-9',
+    name: 'Autostrada',
+    description: 'Oznacza początek lub kontynuację autostrady',
+    imageUrl: '/signs/PL_road_sign_D-9.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-10',
+    name: 'Koniec autostrady',
+    description: 'Oznacza koniec autostrady',
+    imageUrl: '/signs/PL_road_sign_D-10.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-18',
+    name: 'Parking',
+    description: 'Wskazuje miejsce przeznaczone na postój pojazdów',
+    imageUrl: '/signs/PL_road_sign_D-18.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-18a',
+    name: 'Parking - miejsce zastrzeżone',
+    description:
+      'Wskazuje miejsce przeznaczone na postój pojazdów osób niepełnosprawnych',
+    imageUrl: '/signs/PL_road_sign_D-18a.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-19',
+    name: 'Postój taksówek',
+    description: 'Wskazuje miejsce przeznaczone na postój taksówek',
+    imageUrl: '/signs/PL_road_sign_D-19.svg.png',
+    category: 'informacyjne',
+  },
+  {
+    id: 'D-21',
+    name: 'Szpital',
+    description: 'Informuje o obiekcie wskazanym na znaku',
+    imageUrl: '/signs/PL_road_sign_D-21.svg.png',
+    category: 'informacyjne',
+  },
+];
+
+// Funkcja pomocnicza do generowania opcji odpowiedzi
+export function generateOptions(
+  correctSign: RoadSign,
+  allSigns: RoadSign[],
+): string[] {
+  const sameCategorySigns = allSigns.filter(
+    (sign) =>
+      sign.category === correctSign.category && sign.id !== correctSign.id,
+  );
+
+  // Losowo wybierz 3 nieprawidłowe odpowiedzi z tej samej kategorii
+  const shuffled = [...sameCategorySigns].sort(() => Math.random() - 0.5);
+  const wrongOptions = shuffled.slice(0, 3).map((sign) => sign.name);
+
+  // Dodaj prawidłową odpowiedź i wymieszaj
+  const options = [...wrongOptions, correctSign.name];
+  return options.sort(() => Math.random() - 0.5);
+}
+
+// Funkcja do pobierania znaków według kategorii
+export function getSignsByCategory(categoryId: string): RoadSign[] {
+  return roadSigns.filter((sign) => sign.category === categoryId);
+}
