@@ -22,13 +22,15 @@ export async function GET() {
     });
 
     // Parse the JSON strings back to objects
-    const parsedScores = scores.map(scoreStr => {
-      try {
-        return JSON.parse(scoreStr);
-      } catch {
-        return null;
-      }
-    }).filter(Boolean);
+    const parsedScores = scores
+      .map((scoreStr) => {
+        try {
+          return JSON.parse(scoreStr);
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean);
 
     return NextResponse.json(parsedScores);
   } catch (error) {
@@ -45,7 +47,7 @@ export async function POST(request: Request) {
     if (!name || score === undefined || !totalQuestions) {
       return NextResponse.json(
         { error: 'Missing required fields' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -83,7 +85,7 @@ export async function POST(request: Request) {
     const count = await redis.zCard(HIGH_SCORES_KEY);
     if (count > MAX_HIGH_SCORES) {
       // Remove the lowest scores
-      await redis.zPopMin(HIGH_SCORES_KEY, count - MAX_HIGH_SCORES);
+      await redis.zPopMin(HIGH_SCORES_KEY);
     }
 
     return NextResponse.json({ success: true });
@@ -91,7 +93,7 @@ export async function POST(request: Request) {
     console.error('Error saving high score:', error);
     return NextResponse.json(
       { error: 'Failed to save high score' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
