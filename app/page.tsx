@@ -43,7 +43,16 @@ export default function Home() {
   };
 
   const handleBackFromHighScores = () => {
-    setGameState('results');
+    // If we came from results, go back to results. Otherwise, go to welcome
+    if (quizResults.total > 0) {
+      setGameState('results');
+    } else {
+      setGameState('welcome');
+    }
+  };
+
+  const handleShowHighScoresFromWelcome = () => {
+    setGameState('highscores');
   };
 
   const handleBackToWelcome = () => {
@@ -57,7 +66,10 @@ export default function Home() {
   return (
     <>
       {gameState === 'welcome' && (
-        <WelcomeScreen onStart={handleStart} />
+        <WelcomeScreen
+          onStart={handleStart}
+          onShowHighScores={handleShowHighScoresFromWelcome}
+        />
       )}
 
       {gameState === 'category' && (

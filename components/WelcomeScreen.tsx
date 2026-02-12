@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 
 interface WelcomeScreenProps {
   onStart: (username: string) => void;
+  onShowHighScores: () => void;
 }
 
-export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+export default function WelcomeScreen({ onStart, onShowHighScores }: WelcomeScreenProps) {
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
@@ -83,6 +84,14 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             Rozpocznij Quiz
           </button>
         </form>
+
+        <button
+          type="button"
+          onClick={onShowHighScores}
+          className="w-full mt-3 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+        >
+          🏆 Najlepsze Wyniki
+        </button>
 
         <div className="mt-6 pt-6 border-t border-gray-200">
           <p className="text-center text-sm text-gray-500">

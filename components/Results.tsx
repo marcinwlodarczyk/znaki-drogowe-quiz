@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useHighScores, HighScore } from '@/lib/hooks/useLocalStorage';
+import { useEffect, useState } from 'react';
+import { saveHighScore } from '@/lib/highscores';
 import { categories } from '@/lib/roadSignsData';
 
 interface ResultsProps {
@@ -23,21 +23,34 @@ export default function Results({
   onChangeCategory,
   onShowHighScores,
 }: ResultsProps) {
-  const [highScores, addHighScore] = useHighScores();
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState<boolean | null>(null);
   const percentage = Math.round((score / totalQuestions) * 100);
   const category = categories.find(c => c.id === categoryId);
 
   useEffect(() => {
-    // Add score to high scores
-    const newScore: HighScore = {
-      username,
-      category: categoryId,
-      score,
-      totalQuestions,
-      date: new Date().toISOString(),
+    // Save score to Redis (only once)
+    let isMounted = true;
+    let hasSaved = false;
+
+    const saveScore = async () => {
+      if (!isMounted || hasSaved) return;
+      hasSaved = true;
+
+      setIsSaving(true);
+      const success = await saveHighScore(username, score, totalQuestions);
+      if (isMounted) {
+        setSaveSuccess(success);
+        setIsSaving(false);
+      }
     };
-    addHighScore(newScore);
-  }, []);
+
+    saveScore();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Empty dependency array - run only once on mount
 
   const getResultMessage = () => {
     if (percentage === 100) return 'Perfekcyjnie! 🏆';
