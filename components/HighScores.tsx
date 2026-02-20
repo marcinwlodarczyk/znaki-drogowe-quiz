@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { fetchHighScores } from '@/lib/highscores';
 import { HighScore } from '@/app/api/highscores/route';
+import { categories } from '@/lib/roadSignsData';
 
 interface HighScoresProps {
   onBack: () => void;
@@ -12,12 +13,14 @@ export default function HighScores({ onBack }: HighScoresProps) {
   const [highScores, setHighScores] = useState<HighScore[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const loadHighScores = async () => {
       try {
         setLoading(true);
-        const scores = await fetchHighScores();
+        setError(false);
+        const scores = await fetchHighScores(selectedCategory);
         setHighScores(scores);
       } catch (err) {
         setError(true);
@@ -27,7 +30,7 @@ export default function HighScores({ onBack }: HighScoresProps) {
       }
     };
     loadHighScores();
-  }, []);
+  }, [selectedCategory]);
 
   const formatDate = (timestamp: number) => {
     return new Date(timestamp).toLocaleDateString('pl-PL', {
@@ -39,9 +42,13 @@ export default function HighScores({ onBack }: HighScoresProps) {
     });
   };
 
+  const getCategoryName = (categoryId: string) => {
+    return categories.find(c => c.id === categoryId)?.name || categoryId;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-red-500 flex flex-col items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-2xl w-full">
+      <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 max-w-3xl w-full">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-3xl font-bold text-gray-800">
             🏆 Najlepsze Wyniki
@@ -52,6 +59,33 @@ export default function HighScores({ onBack }: HighScoresProps) {
           >
             ← Powrót
           </button>
+        </div>
+
+        {/* Category filter tabs */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          <button
+            onClick={() => setSelectedCategory(undefined)}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              selectedCategory === undefined
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            Wszystkie
+          </button>
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={`px-4 py-2 rounded-lg font-semibold transition ${
+                selectedCategory === category.id
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
         </div>
 
         {loading && (
@@ -95,6 +129,9 @@ export default function HighScores({ onBack }: HighScoresProps) {
                     <div>
                       <p className="font-bold text-gray-800">{score.name}</p>
                       <p className="text-sm text-gray-600">
+                        {getCategoryName(score.categoryId)}
+                      </p>
+                      <p className="text-xs text-gray-500">
                         {formatDate(score.timestamp)}
                       </p>
                     </div>

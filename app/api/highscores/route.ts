@@ -7,17 +7,28 @@ export interface HighScore {
   totalQuestions: number;
   percentage: number;
   timestamp: number;
+  categoryId: string;
 }
 
-const HIGH_SCORES_KEY = 'quiz:highscores';
+const HIGH_SCORES_KEY_PREFIX = 'quiz:highscores';
 const MAX_HIGH_SCORES = 10;
 
-export async function GET() {
+function getHighScoresKey(categoryId?: string): string {
+  return categoryId
+    ? `${HIGH_SCORES_KEY_PREFIX}:${categoryId}`
+    : `${HIGH_SCORES_KEY_PREFIX}:all`;
+}
+
+export async function GET(request: Request) {
   try {
     const redis = await getRedisClient();
+    const { searchParams } = new URL(request.url);
+    const categoryId = searchParams.get('category') || undefined;
 
-    // Get top scores (sorted by score descending)
-    const scores = await redis.zRange(HIGH_SCORES_KEY, 0, MAX_HIGH_SCORES - 1, {
+    const key = getHighScoresKey(categoryId);
+
+    // Get top scores (sorted by percentage descending)
+    const scores = await redis.zRange(key, 0, MAX_HIGH_SCORES - 1, {
       REV: true,
     });
 
@@ -39,12 +50,40 @@ export async function GET() {
   }
 }
 
+export async function DELETE(request: Request) {
+  try {
+    const redis = await getRedisClient();
+    const { searchParams } = new URL(request.url);
+    const categoryId = searchParams.get('category') || undefined;
+
+    if (categoryId) {
+      // Clear specific category highscores
+      const key = getHighScoresKey(categoryId);
+      await redis.del(key);
+    } else {
+      // Clear all highscores
+      const keys = await redis.keys(`${HIGH_SCORES_KEY_PREFIX}:*`);
+      if (keys.length > 0) {
+        await redis.del(keys);
+      }
+    }
+
+    return NextResponse.json({ success: true, message: 'Highscores cleared' });
+  } catch (error) {
+    console.error('Error clearing high scores:', error);
+    return NextResponse.json(
+      { error: 'Failed to clear high scores' },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const redis = await getRedisClient();
-    const { name, score, totalQuestions } = await request.json();
+    const { name, score, totalQuestions, categoryId } = await request.json();
 
-    if (!name || score === undefined || !totalQuestions) {
+    if (!name || score === undefined || !totalQuestions || !categoryId) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 },
@@ -54,18 +93,20 @@ export async function POST(request: Request) {
     const percentage = (score / totalQuestions) * 100;
     const timestamp = Date.now();
 
-    // Create a unique key for deduplication (based on name, score, and a time window)
-    const timeWindow = Math.floor(timestamp / 5000) * 5000; // 5-second window
-    const dedupeKey = `dedupe:${name}:${score}:${totalQuestions}:${timeWindow}`;
+    // Create a unique key for deduplication (based on name, score, category, and a time window)
+    // Use a 30-second window to better catch duplicate saves from React StrictMode
+    const timeWindow = Math.floor(timestamp / 30000) * 30000; // 30-second window
+    const dedupeKey = `dedupe:${name}:${score}:${totalQuestions}:${categoryId}:${timeWindow}`;
 
-    // Check if this score was recently saved (within 5 seconds)
+    // Check if this score was recently saved (within the same time window)
     const recentlySaved = await redis.get(dedupeKey);
     if (recentlySaved) {
+      console.log('Duplicate score detected, skipping save:', { name, score, categoryId });
       return NextResponse.json({ success: true, deduplicated: true });
     }
 
-    // Set the deduplication key with 10 second expiry
-    await redis.set(dedupeKey, '1', { EX: 10 });
+    // Set the deduplication key with 60 second expiry to prevent duplicates
+    await redis.set(dedupeKey, '1', { EX: 60 });
 
     const highScore: HighScore = {
       name,
@@ -73,19 +114,35 @@ export async function POST(request: Request) {
       totalQuestions,
       percentage,
       timestamp,
+      categoryId,
     };
 
-    // Add score to sorted set (sorted by percentage)
-    await redis.zAdd(HIGH_SCORES_KEY, {
+    const scoreString = JSON.stringify(highScore);
+
+    // Add score to category-specific sorted set
+    const categoryKey = getHighScoresKey(categoryId);
+    await redis.zAdd(categoryKey, {
       score: percentage,
-      value: JSON.stringify(highScore),
+      value: scoreString,
     });
 
-    // Keep only top scores
-    const count = await redis.zCard(HIGH_SCORES_KEY);
-    if (count > MAX_HIGH_SCORES) {
-      // Remove the lowest scores
-      await redis.zPopMin(HIGH_SCORES_KEY);
+    // Also add to global highscores
+    const globalKey = getHighScoresKey();
+    await redis.zAdd(globalKey, {
+      score: percentage,
+      value: scoreString,
+    });
+
+    // Keep only top scores for category-specific key
+    const categoryCount = await redis.zCard(categoryKey);
+    if (categoryCount > MAX_HIGH_SCORES) {
+      await redis.zPopMin(categoryKey);
+    }
+
+    // Keep only top scores for global key
+    const globalCount = await redis.zCard(globalKey);
+    if (globalCount > MAX_HIGH_SCORES) {
+      await redis.zPopMin(globalKey);
     }
 
     return NextResponse.json({ success: true });

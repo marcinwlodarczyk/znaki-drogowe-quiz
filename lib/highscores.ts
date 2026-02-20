@@ -1,8 +1,11 @@
 import { HighScore } from '@/app/api/highscores/route';
 
-export async function fetchHighScores(): Promise<HighScore[]> {
+export async function fetchHighScores(categoryId?: string): Promise<HighScore[]> {
   try {
-    const response = await fetch('/api/highscores');
+    const url = categoryId
+      ? `/api/highscores?category=${categoryId}`
+      : '/api/highscores';
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Failed to fetch high scores');
     }
@@ -16,7 +19,8 @@ export async function fetchHighScores(): Promise<HighScore[]> {
 export async function saveHighScore(
   name: string,
   score: number,
-  totalQuestions: number
+  totalQuestions: number,
+  categoryId: string
 ): Promise<boolean> {
   try {
     const response = await fetch('/api/highscores', {
@@ -28,11 +32,27 @@ export async function saveHighScore(
         name,
         score,
         totalQuestions,
+        categoryId,
       }),
     });
     return response.ok;
   } catch (error) {
     console.error('Error saving high score:', error);
+    return false;
+  }
+}
+
+export async function clearHighScores(categoryId?: string): Promise<boolean> {
+  try {
+    const url = categoryId
+      ? `/api/highscores?category=${categoryId}`
+      : '/api/highscores';
+    const response = await fetch(url, {
+      method: 'DELETE',
+    });
+    return response.ok;
+  } catch (error) {
+    console.error('Error clearing high scores:', error);
     return false;
   }
 }

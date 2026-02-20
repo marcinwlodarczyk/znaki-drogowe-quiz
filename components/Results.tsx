@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { saveHighScore } from '@/lib/highscores';
 import { categories } from '@/lib/roadSignsData';
 
@@ -25,20 +25,33 @@ export default function Results({
 }: ResultsProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean | null>(null);
+  const hasSavedRef = useRef(false);
   const percentage = Math.round((score / totalQuestions) * 100);
   const category = categories.find(c => c.id === categoryId);
+
+  // Reset the saved flag when score/category changes (new game)
+  useEffect(() => {
+    hasSavedRef.current = false;
+    setSaveSuccess(null);
+  }, [score, categoryId]);
 
   useEffect(() => {
     // Save score to Redis (only once)
     let isMounted = true;
-    let hasSaved = false;
 
     const saveScore = async () => {
-      if (!isMounted || hasSaved) return;
-      hasSaved = true;
+      // Check if we've already saved this score
+      if (!isMounted || hasSavedRef.current) return;
+
+      // Mark as saved immediately to prevent double saves
+      hasSavedRef.current = true;
 
       setIsSaving(true);
-      const success = await saveHighScore(username, score, totalQuestions);
+
+      // Add a small delay to debounce potential double calls
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const success = await saveHighScore(username, score, totalQuestions, categoryId);
       if (isMounted) {
         setSaveSuccess(success);
         setIsSaving(false);
