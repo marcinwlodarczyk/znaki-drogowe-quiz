@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clear-highscores": "node scripts/clear-highscores.js",
+    "clear-highscores:all": "node scripts/clear-highscores.js --all"
   },
   "dependencies": {
     "@vercel/kv": "^3.0.0",

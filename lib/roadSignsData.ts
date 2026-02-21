@@ -353,7 +353,7 @@ export const roadSigns: RoadSign[] = [
   },
   {
     id: 'B-3',
-    name: 'Zakaz wjazdu pojazdów silnikowych',
+    name: 'Zakaz wjazdu pojazdów silnikowych z wyjątkiem motocykli jednośladowych',
     description:
       'Zakazuje wjazdu pojazdów silnikowych z wyjątkiem motocykli jednośladowych',
     imageUrl: '/signs/PL_road_sign_B-3.svg.png',
@@ -384,7 +384,8 @@ export const roadSigns: RoadSign[] = [
   {
     id: 'B-6',
     name: 'Zakaz wjazdu ciągników rolniczych',
-    description: 'Zakazuje wjazdu ciągników rolniczych i pojazdów wolnobieżnych',
+    description:
+      'Zakazuje wjazdu ciągników rolniczych i pojazdów wolnobieżnych',
     imageUrl: '/signs/PL_road_sign_B-6.svg.png',
     category: 'zakazu',
   },
@@ -424,9 +425,17 @@ export const roadSigns: RoadSign[] = [
     category: 'zakazu',
   },
   {
+    id: 'B-12',
+    name: 'Zakaz wjazdu wózków ręcznych',
+    description: 'Zakazuje wjazdu wózków ręcznych',
+    imageUrl: '/signs/PL_road_sign_B-12.svg.png',
+    category: 'zakazu',
+  },
+  {
     id: 'B-13',
-    name: 'Zakaz wjazdu pojazdów z towarami wybuchowymi',
-    description: 'Zakazuje wjazdu pojazdów z towarami wybuchowymi lub łatwo zapalnymi',
+    name: 'Zakaz wjazdu pojazdów z towarami wybuchowymi lub łatwo zapalnymi',
+    description:
+      'Zakazuje wjazdu pojazdów z towarami wybuchowymi lub łatwo zapalnymi',
     imageUrl: '/signs/PL_road_sign_B-13.svg.png',
     category: 'zakazu',
   },
@@ -468,7 +477,8 @@ export const roadSigns: RoadSign[] = [
   {
     id: 'B-18',
     name: 'Zakaz wjazdu pojazdów o masie ponad 7 t',
-    description: 'Zakazuje wjazdu pojazdów o rzeczywistej masie całkowitej ponad 7 t',
+    description:
+      'Zakazuje wjazdu pojazdów o rzeczywistej masie całkowitej ponad 7 t',
     imageUrl: '/signs/PL_road_sign_B-18-7t.svg.png',
     category: 'zakazu',
   },
@@ -559,7 +569,8 @@ export const roadSigns: RoadSign[] = [
   {
     id: 'B-31',
     name: 'Pierwszeństwo dla nadjeżdżających z przeciwka',
-    description: 'Nakazuje ustąpienie pierwszeństwa pojazdom nadjeżdżającym z przeciwka',
+    description:
+      'Nakazuje ustąpienie pierwszeństwa pojazdom nadjeżdżającym z przeciwka',
     imageUrl: '/signs/PL_road_sign_B-31.svg.png',
     category: 'zakazu',
   },
@@ -571,10 +582,52 @@ export const roadSigns: RoadSign[] = [
     category: 'zakazu',
   },
   {
-    id: 'B-33',
-    name: 'Ograniczenie prędkości (50 km/h)',
-    description: 'Zakazuje przekraczania prędkości 50 kilometrów na godzinę',
-    imageUrl: '/signs/PL_road_sign_B-34-50.svg.png',
+    id: 'B-32a',
+    name: 'Kontrola graniczna',
+    description: 'Nakazuje zatrzymanie do kontroli granicznej',
+    imageUrl: '/signs/PL_road_sign_B-32a.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-32b',
+    name: 'Rogatka uszkodzona',
+    description: 'Rogatka uszkodzona',
+    imageUrl: '/signs/PL_road_sign_B-32b.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-32c',
+    name: 'Sygnalizacja uszkodzona',
+    description: 'Sygnalizacja uszkodzona',
+    imageUrl: '/signs/PL_road_sign_B-32c.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-32d',
+    name: 'Wjazd na prom',
+    description: 'Wjazd na prom',
+    imageUrl: '/signs/PL_road_sign_B-32d.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-32e',
+    name: 'Kontrola drogowa',
+    description: 'Kontrola drogowa',
+    imageUrl: '/signs/PL_road_sign_B-32e.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-32f',
+    name: 'Pobór opłat',
+    description: 'Pobór opłat',
+    imageUrl: '/signs/PL_road_sign_B-32f.svg.png',
+    category: 'zakazu',
+  },
+  {
+    id: 'B-34',
+    name: 'Koniec ograniczenia prędkości',
+    description: 'Koniec ograniczenia prędkości',
+    imageUrl: '/signs/PL_road_sign_B-34.svg.png',
     category: 'zakazu',
   },
   {
@@ -750,17 +803,17 @@ export const roadSigns: RoadSign[] = [
   },
   {
     id: 'C-14',
-    name: 'Prędkość minimalna (30 km/h)',
+    name: 'Prędkość minimalna',
     description:
       'Nakazuje jazdę z prędkością nie mniejszą niż 30 kilometrów na godzinę',
-    imageUrl: '/signs/PL_road_sign_C-14-30.svg.png',
+    imageUrl: '/signs/PL_road_sign_C-14.svg.png',
     category: 'nakazu',
   },
   {
     id: 'C-15',
-    name: 'Koniec minimalnej prędkości (30 km/h)',
+    name: 'Koniec minimalnej prędkości',
     description: 'Oznacza koniec nakazu jazdy z prędkością minimalną 30 km/h',
-    imageUrl: '/signs/PL_road_sign_C-15-30.svg.png',
+    imageUrl: '/signs/PL_road_sign_C-15.svg.png',
     category: 'nakazu',
   },
   {
@@ -781,14 +834,16 @@ export const roadSigns: RoadSign[] = [
   {
     id: 'C-17',
     name: 'Nakaz kierunku jazdy dla pojazdów z towarami niebezpiecznymi',
-    description: 'Nakazuje kierunek jazdy dla pojazdów przewożących towary niebezpieczne',
+    description:
+      'Nakazuje kierunek jazdy dla pojazdów przewożących towary niebezpieczne',
     imageUrl: '/signs/PL_road_sign_C-17-2.svg.png',
     category: 'nakazu',
   },
   {
     id: 'C-18',
     name: 'Nakaz używania łańcuchów przeciwpoślizgowych',
-    description: 'Nakazuje używanie łańcuchów przeciwpoślizgowych na co najmniej dwóch kołach napędowych',
+    description:
+      'Nakazuje używanie łańcuchów przeciwpoślizgowych na co najmniej dwóch kołach napędowych',
     imageUrl: '/signs/PL_road_sign_C-18.svg.png',
     category: 'nakazu',
   },

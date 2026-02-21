@@ -53,7 +53,7 @@ export default function Quiz({ categoryId, username, onFinish, onBack }: QuizPro
   const handleTimeout = () => {
     setShowResult(true);
     setIsCorrect(false);
-    setTimeout(() => nextQuestion(), 2000);
+    setTimeout(() => nextQuestion(false), 2000);
   };
 
   const handleAnswer = (answer: string) => {
@@ -68,15 +68,17 @@ export default function Quiz({ categoryId, username, onFinish, onBack }: QuizPro
       setScore(score + 1);
     }
 
-    setTimeout(() => nextQuestion(), 2000);
+    setTimeout(() => nextQuestion(correct), 2000);
   };
 
-  const nextQuestion = () => {
+  const nextQuestion = (wasCorrect: boolean = false) => {
     if (currentIndex < signs.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setShowResult(false);
     } else {
-      onFinish(score, signs.length);
+      // Use the updated score for the last question
+      const finalScore = wasCorrect ? score + 1 : score;
+      onFinish(finalScore, signs.length);
     }
   };
 
