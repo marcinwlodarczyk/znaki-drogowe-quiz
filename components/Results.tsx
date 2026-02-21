@@ -29,41 +29,61 @@ export default function Results({
   const percentage = Math.round((score / totalQuestions) * 100);
   const category = categories.find(c => c.id === categoryId);
 
-  // Reset the saved flag when score/category changes (new game)
-  useEffect(() => {
-    hasSavedRef.current = false;
-    setSaveSuccess(null);
-  }, [score, categoryId]);
+  // Create a unique key for this specific game result
+  const gameKey = `${username}-${score}-${totalQuestions}-${categoryId}`;
 
   useEffect(() => {
-    // Save score to Redis (only once)
+    // Save score to Redis (only once per unique game result)
     let isMounted = true;
+    let isAborted = false;
 
     const saveScore = async () => {
-      // Check if we've already saved this score
-      if (!isMounted || hasSavedRef.current) return;
+      // Check if we've already saved this specific score
+      if (!isMounted || isAborted) return;
 
-      // Mark as saved immediately to prevent double saves
-      hasSavedRef.current = true;
+      // Check if we already saved this exact game
+      const savedKey = sessionStorage.getItem('lastSavedGame');
+      if (savedKey === gameKey) {
+        console.log('Score already saved for this game');
+        setSaveSuccess(true);
+        return;
+      }
 
       setIsSaving(true);
 
-      // Add a small delay to debounce potential double calls
-      await new Promise(resolve => setTimeout(resolve, 100));
+      try {
+        const success = await saveHighScore(username, score, totalQuestions, categoryId);
 
-      const success = await saveHighScore(username, score, totalQuestions, categoryId);
-      if (isMounted) {
-        setSaveSuccess(success);
-        setIsSaving(false);
+        if (!isAborted && isMounted) {
+          if (success) {
+            // Mark this specific game as saved in session storage
+            sessionStorage.setItem('lastSavedGame', gameKey);
+          }
+          setSaveSuccess(success);
+          setIsSaving(false);
+        }
+      } catch (error) {
+        console.error('Error saving score:', error);
+        if (!isAborted && isMounted) {
+          setSaveSuccess(false);
+          setIsSaving(false);
+        }
       }
     };
 
-    saveScore();
+    // Small delay to prevent React StrictMode double-call issues
+    const timer = setTimeout(() => {
+      if (!isAborted) {
+        saveScore();
+      }
+    }, 100);
 
     return () => {
       isMounted = false;
+      isAborted = true;
+      clearTimeout(timer);
     };
-  }, []); // Empty dependency array - run only once on mount
+  }, [gameKey, username, score, totalQuestions, categoryId]); // Include all dependencies for the unique game
 
   const getResultMessage = () => {
     if (percentage === 100) return 'Perfekcyjnie! 🏆';

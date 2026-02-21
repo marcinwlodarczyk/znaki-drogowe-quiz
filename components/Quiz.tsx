@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { RoadSign, generateOptions, getSignsByCategory, categories } from '@/lib/roadSignsData';
 import Image from 'next/image';
 
@@ -20,6 +20,8 @@ export default function Quiz({ categoryId, username, onFinish, onBack }: QuizPro
   const [timeLeft, setTimeLeft] = useState(15);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const nextQuestionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const category = categories.find(c => c.id === categoryId);
   const currentSign = signs[currentIndex];
@@ -29,6 +31,15 @@ export default function Quiz({ categoryId, username, onFinish, onBack }: QuizPro
     const shuffled = [...categorySignsigns].sort(() => Math.random() - 0.5);
     setSigns(shuffled);
   }, [categoryId]);
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (nextQuestionTimeoutRef.current) {
+        clearTimeout(nextQuestionTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (currentSign && !showResult) {
@@ -51,13 +62,21 @@ export default function Quiz({ categoryId, username, onFinish, onBack }: QuizPro
   }, [timeLeft, selectedAnswer, showResult]);
 
   const handleTimeout = () => {
-    setShowResult(true);
-    setIsCorrect(false);
-    setTimeout(() => nextQuestion(false), 2000);
+    if (!selectedAnswer && !showResult) {
+      setShowResult(true);
+      setIsCorrect(false);
+      nextQuestionTimeoutRef.current = setTimeout(() => nextQuestion(false), 2000);
+    }
   };
 
   const handleAnswer = (answer: string) => {
     if (selectedAnswer || showResult) return;
+
+    // Clear any pending timeout to prevent double execution
+    if (nextQuestionTimeoutRef.current) {
+      clearTimeout(nextQuestionTimeoutRef.current);
+      nextQuestionTimeoutRef.current = null;
+    }
 
     setSelectedAnswer(answer);
     const correct = answer === currentSign.name;
@@ -68,14 +87,16 @@ export default function Quiz({ categoryId, username, onFinish, onBack }: QuizPro
       setScore(score + 1);
     }
 
-    setTimeout(() => nextQuestion(correct), 2000);
+    nextQuestionTimeoutRef.current = setTimeout(() => nextQuestion(correct), 2000);
   };
 
   const nextQuestion = (wasCorrect: boolean = false) => {
     if (currentIndex < signs.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setShowResult(false);
-    } else {
+    } else if (!isFinished) {
+      // Prevent duplicate finish calls
+      setIsFinished(true);
       // Use the updated score for the last question
       const finalScore = wasCorrect ? score + 1 : score;
       onFinish(finalScore, signs.length);

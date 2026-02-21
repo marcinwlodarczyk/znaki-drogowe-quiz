@@ -93,20 +93,20 @@ export async function POST(request: Request) {
     const percentage = (score / totalQuestions) * 100;
     const timestamp = Date.now();
 
-    // Create a unique key for deduplication (based on name, score, category, and a time window)
-    // Use a 30-second window to better catch duplicate saves from React StrictMode
-    const timeWindow = Math.floor(timestamp / 30000) * 30000; // 30-second window
+    // Create a unique key for deduplication (based on name, score, category)
+    // Use a 5-second window to catch rapid duplicate saves from React StrictMode or double-submits
+    const timeWindow = Math.floor(timestamp / 5000) * 5000; // 5-second window
     const dedupeKey = `dedupe:${name}:${score}:${totalQuestions}:${categoryId}:${timeWindow}`;
 
     // Check if this score was recently saved (within the same time window)
     const recentlySaved = await redis.get(dedupeKey);
     if (recentlySaved) {
-      console.log('Duplicate score detected, skipping save:', { name, score, categoryId });
+      console.log('Duplicate score detected, skipping save:', { name, score, categoryId, timeWindow });
       return NextResponse.json({ success: true, deduplicated: true });
     }
 
-    // Set the deduplication key with 60 second expiry to prevent duplicates
-    await redis.set(dedupeKey, '1', { EX: 60 });
+    // Set the deduplication key with 10 second expiry to prevent duplicates
+    await redis.set(dedupeKey, '1', { EX: 10 });
 
     const highScore: HighScore = {
       name,
